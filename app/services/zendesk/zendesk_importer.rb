@@ -13,7 +13,7 @@ module Zendesk
       tickets = client.search(query: "created>#{last_date} type:ticket")
       tickets.each do |ticket|
         Task.create(source: @agent, external_source_id: ticket.id, status: :imported)
-        task = Converters::TicketToTask.new(ticket).convert
+        Runrunit::RunrunitExporter.new(ticket).export
       end
     end
 

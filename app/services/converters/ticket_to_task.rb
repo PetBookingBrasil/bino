@@ -7,11 +7,18 @@ module Converters
 
     def convert
       {
-        title: @ticket.subject,
+        title: "[ZENDESK] - #{@ticket.subject}",
         on_going: false,
         scheduled_start_time: nil,
         desired_date_with_time: nil,
-        description: @ticket.comment.body
+        description: @ticket.description,
+        project_id: ENV['RUNRUNIT_PROJECT_ID'],
+        type_id: ENV['RUNRUNIT_TASK_TYPE_ID'],
+        assignments: [
+          {
+            'assignee_id': 'sem-atribuicao'
+          }
+        ]
       }
     end
   end
