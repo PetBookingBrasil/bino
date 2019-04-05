@@ -10,28 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_28_203432) do
+ActiveRecord::Schema.define(version: 2019_02_28_203433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "agents", force: :cascade do |t|
-    t.string "name"
-    t.datetime "last_sync"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tasks", force: :cascade do |t|
-    t.bigint "source_id"
-    t.bigint "destiny_id"
+  create_table "bino_packages", force: :cascade do |t|
+    t.string "source", null: false
+    t.string "destiny", null: false
     t.string "external_source_id"
     t.string "external_destiny_id"
     t.integer "status"
+    t.integer "package_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["destiny_id"], name: "index_tasks_on_destiny_id"
-    t.index ["source_id"], name: "index_tasks_on_source_id"
   end
 
 end
