@@ -3,14 +3,15 @@ require 'zendesk_api'
 module Zendesk
   class ZendeskService
 
-    def initialize(object_id, source_type, destiny_type)
+    def initialize(source, destiny, object_id, source_type, destiny_type)
+      @source = source
+      @destiny = destiny
       @object_id = object_id
       @source_type = source_type
-      @object_id = object_id
     end
 
     def get
-      last_date = Package.find_by(source: )
+      last_date = Package.find_by(source: @source)
 
       tickets = client.search(query: "created>#{last_date} type:#{source_type}")
 
