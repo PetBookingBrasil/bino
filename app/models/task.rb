@@ -1,5 +1,4 @@
-class Task < ApplicationRecord
-  belongs_to :source, class_name: 'Agent'
-  belongs_to :destiny, class_name: 'Agent', optional: true
-  enum status: [ :imported, :exported ]
+class Package < ApplicationRecord
+  enum status: [ :send, :waiting, :failed ]
+  enum type: [ :ticket, :card ]
 end

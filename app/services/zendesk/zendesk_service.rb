@@ -4,7 +4,6 @@ module Zendesk
   class ZendeskService
 
     def initialize(object_id, source_type, destiny_type)
-      @agent = Agent.find_by(name: "zendesk")
       @object_id = object_id
       @source_type = source_type
       @object_id = object_id
@@ -16,7 +15,7 @@ module Zendesk
       tickets = client.search(query: "created>#{last_date} type:#{source_type}")
 
       tickets.each do |t|
-        Package.create(source: @source, destiny: @destiny, source_id: t.id, type: destiny_type)
+        Package.create(source: @source, destiny: @destiny, source_external_id: t.id, type: destiny_type)
       end
       response_format(destiny_type, tickets)
     end

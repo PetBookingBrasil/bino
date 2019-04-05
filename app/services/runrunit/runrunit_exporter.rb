@@ -9,7 +9,7 @@ module Runrunit
         body = { task: obj }
         resource = 'api/v1.0/tasks'
         response = Runrunit::Resources.new().perform_request(body: body, resource: resource, method: :post)
-        Package.find_by(source_id: obj.id).update(destiny_id: response.id)
+        Package.find_by(source_external_id: obj.id).update(destiny_external_id: response.id)
       end
     end
 
