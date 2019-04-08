@@ -1,5 +1,8 @@
 class BinoService
 
+  SOURCE_TYPES = ["ticket", "card"]
+  DESTINY_TYPES = ["ticket", "card"]
+
   def initialize(source, destiny, source_type, destiny_type, object_id = nil)
     @source = source
     @destiny = destiny
@@ -9,6 +12,8 @@ class BinoService
   end
 
   def transport
+    raise "Rejected type" if !SOURCE_TYPES.include?(@source_type) || !DESTINY_TYPES.include?(@destiny_type)
+
     source_class = "Agents::#{@source.capitalize}Service".constantize
     destiny_class = "Agents::#{@destiny.capitalize}Service".constantize
 
