@@ -1,7 +1,7 @@
 require 'rest-client'
 class Resources::Runrunit
 
-  def self.perform_request(body:, resource:, method:)
+  def perform_request(body:, resource:, method:)
     resource_url = "#{ENV['RUNRUNIT_URL']}/#{resource}"
 
     headers = { 'App-key': ENV['RUNRUNIT_API_KEY'], 'User-Token': ENV['RUNRUNIT_USER_TOKEN'],

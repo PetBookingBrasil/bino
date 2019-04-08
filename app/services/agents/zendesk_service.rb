@@ -2,7 +2,7 @@ require 'zendesk_api'
 
 class Agents::ZendeskService
 
-  def self.get(destiny, object_id, source_type, destiny_type)
+  def self.get(destiny, object_id = nil, source_type, destiny_type)
     last_date = BinoPackage.where(source: "zendesk", package_type: destiny_type, status: :sent)
                            .first
                            .try(:updated_at)

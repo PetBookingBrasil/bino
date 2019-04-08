@@ -20,7 +20,7 @@ class BinoService
     formatted_source_objects = source_class.get(@destiny, @object_id, @source_type, @destiny_type)
 
     if formatted_source_objects.present?
-      destiny_class.post(formatted_source_objects, @destiny_type)
+      destiny_class.post([formatted_source_objects.first], @destiny_type)
     end
   end
 
