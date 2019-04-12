@@ -19,7 +19,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rack-cors', require: 'rack/cors'
 
 # zendesk api
-gem "zendesk_api"
+gem 'zendesk_api'
 
 # dotenv
 gem 'dotenv-rails', groups: [:development, :test]
