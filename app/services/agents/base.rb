@@ -20,7 +20,7 @@ module Agents
 
     def post
       @formatted_objects.each do |obj|
-        response = post_item(task: obj[:body])
+        response = post_item(obj)
         update_package_status(obj[:id], JSON.parse(response)['id'])
       end
     end

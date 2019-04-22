@@ -28,19 +28,17 @@ class BinoService
   private
 
   def get_objects_from_source
-    source_class = "Agents::#{@source.capitalize}Service".constantize.new(
+    "Agents::#{@source.capitalize}Service".constantize.new(
       destiny: @destiny,
       object_id: @object_id,
       source_type: @source_type,
-      destiny_type: @destiny_type)
-    source_class.get
+      destiny_type: @destiny_type).get
   end
 
   def post_objects_for_destiny(objects_to_send)
-    destiny_class = "Agents::#{@destiny.capitalize}Service".constantize.new(
+    "Agents::#{@destiny.capitalize}Service".constantize.new(
       formatted_objects: objects_to_send.first,
-      destiny_type: @destiny_type)
-    destiny_class.post
+      destiny_type: @destiny_type).post
   end
 
   def create_packages_for_objects(objects_to_send)
