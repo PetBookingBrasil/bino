@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Agents
   class Base
     def initialize(params = {})
@@ -18,16 +20,16 @@ module Agents
 
     def post
       @formatted_objects.each do |obj|
-        response = post_item({ task: obj[:body] })
-        update_package_status(obj[:id], JSON.parse(response)["id"])
+        response = post_item(task: obj[:body])
+        update_package_status(obj[:id], JSON.parse(response)['id'])
       end
     end
 
-    def last_date_for_source_and_package_type(source, package_type)
+    def last_date_for_source_and_package_type(_source, _package_type)
       BinoPackage.where(source: 'zendesk', package_type: destiny_type, status: :sent)
-         .first
-         .try(:updated_at)
-         .try(:strftime, '%Y-%m-%d') || Date.today.try(:strftime, '%Y-%m-%d')
+                 .first
+                 .try(:updated_at)
+                 .try(:strftime, '%Y-%m-%d') || Date.today.try(:strftime, '%Y-%m-%d')
     end
 
     private

@@ -13,6 +13,7 @@ module Agents
 
     def response_format(format, objects)
       return unless format == 'card'
+
       Converters::TicketToTask.convert(objects)
     end
 
