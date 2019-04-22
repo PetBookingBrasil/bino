@@ -25,8 +25,8 @@ module Agents
       end
     end
 
-    def last_date_for_source_and_package_type(_source, _package_type)
-      BinoPackage.where(source: 'zendesk', package_type: destiny_type, status: :sent)
+    def last_date_for_source_and_package_type(source, package_type)
+      BinoPackage.where(source: source, package_type: package_type, status: :sent)
                  .first
                  .try(:updated_at)
                  .try(:strftime, '%Y-%m-%d') || Date.today.try(:strftime, '%Y-%m-%d')
