@@ -1,39 +1,37 @@
+# frozen_string_literal: true
+
 require 'zendesk_api'
 
-class Agents::ZendeskService
-
-  def self.get(destiny, object_id = nil, source_type, destiny_type)
-    last_date = BinoPackage.where(source: "zendesk", package_type: destiny_type, status: :sent)
-                           .first
-                           .try(:updated_at)
-                           .try(:strftime, "%Y-%m-%d") ||
-                1.years.ago.try(:strftime, "%Y-%m-%d")
-
-    query = object_id == nil ? "created>#{last_date} type:#{source_type}" : "#{object_id}"
-    tickets = client.search(query: query)
-    tickets.each do |t|
-      BinoPackage.create(source: "zendesk",
-                         destiny: destiny,
-                         external_source_id: t.id,
-                         package_type: destiny_type,
-                         status: :waiting)
+module Agents
+  # Aggregate functions to the Zendesk Agent
+  class ZendeskService < Base
+    def get
+      response_format(destiny_type, client.search(query: get_query))
     end
-    response_format(destiny_type, tickets)
-  end
 
-  def self.response_format(format, objects)
-    if format == "card"
+    private
+
+    def response_format(format, objects)
+      return unless format == 'card'
       Converters::TicketToTask.convert(objects)
     end
-  end
 
-  def self.client
-    ZendeskAPI::Client.new do |config|
-      config.url = ENV['ZENDESK_URL']
-      config.username = ENV['ZENDESK_USERNAME']
-      config.token = ENV['ZENDESK_TOKEN']
-      config.retry = true
-      config.logger = Rails.logger
+    def client
+      ZendeskAPI::Client.new do |config|
+        config.url = ENV['ZENDESK_URL']
+        config.username = ENV['ZENDESK_USERNAME']
+        config.token = ENV['ZENDESK_TOKEN']
+        config.retry = true
+        config.logger = Rails.logger
+      end
+    end
+
+    def get_query
+      if object_id.nil?
+        "created>#{last_date_for_source_and_package_type('zendesk', destiny_type)} type:#{source_type}"
+      else
+        object_id.to_s
+      end
     end
   end
 end

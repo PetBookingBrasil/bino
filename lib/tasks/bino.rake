@@ -10,5 +10,4 @@ namespace :bino do
       args[:object_id],
     ).transport
   end
-
 end

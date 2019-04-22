@@ -16,7 +16,5 @@ class Resources::Runrunit
     rescue RestClient::ExceptionWithResponse => e
       return e.http_body
     end
-
   end
-
 end
