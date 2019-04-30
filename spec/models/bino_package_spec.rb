@@ -8,6 +8,6 @@ RSpec.describe BinoPackage, type: :model do
     it { should define_enum_for(:status)
         .with_values([:sent, :waiting, :failed])}
     it { should define_enum_for(:package_type)
-        .with_values([:ticket, :card])}
+        .with_values([:ticket, :tasks])}
   end
 end
