@@ -6,14 +6,14 @@ module Agents
   # Aggregate functions to the Zendesk Agent
   class ZendeskService < Base
     def get
-      response_format(destiny_type, client.search(query: get_query))
+      puts "Loading data from Zendesk using the following query: #{query}"
+      format_response(@destiny_type, client.search(query: query))
     end
 
     private
 
-    def response_format(format, objects)
-      return unless format == 'card'
-
+    def format_response(format, objects)
+      return unless format == 'tasks'
       Converters::TicketToTask.convert(objects)
     end
 
@@ -27,11 +27,11 @@ module Agents
       end
     end
 
-    def get_query
-      if object_id.nil?
-        "created>#{last_date_for_source_and_package_type('zendesk', destiny_type)} type:#{source_type}"
+    def query
+      if @object_id.nil?
+        "created>#{last_date_for_source_and_package_type('zendesk', @destiny_type)} type:#{@source_type}"
       else
-        object_id.to_s
+        @object_id.to_s
       end
     end
   end

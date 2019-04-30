@@ -6,7 +6,8 @@ module Converters
         {
           id: ticket.id,
           body: {
-            title: "[ZENDESK] - #{ticket.subject}",
+            title: "[ZENDESK] - #{ticket.subject ||
+              (ticket.description.slice(0, 50) + '...')}",
             on_going: false,
             scheduled_start_time: nil,
             desired_date_with_time: nil,

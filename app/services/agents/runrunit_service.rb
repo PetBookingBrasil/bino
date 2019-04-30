@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Agents
-  class RunrunitService
+  class RunrunitService < Base
     API_BASE_URL = 'api/v1.0/'
 
     def post_item(body)

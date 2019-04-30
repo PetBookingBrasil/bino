@@ -2,6 +2,8 @@
 
 module Agents
   class Base
+    DEFAULT_DATA_TO_SYNC = (Date.today - 1.month).try(:strftime, '%Y-%m-%d').freeze
+
     def initialize(params = {})
       @source = params[:source]
       @destiny = params[:destiny]
@@ -26,15 +28,16 @@ module Agents
     end
 
     def last_date_for_source_and_package_type(source, package_type)
-      BinoPackage.where(source: source, package_type: package_type, status: :sent)
+      BinoPackage.sent.send(package_type).where(source: source.camelize)
                  .first
                  .try(:updated_at)
-                 .try(:strftime, '%Y-%m-%d') || Date.today.try(:strftime, '%Y-%m-%d')
+                 .try(:strftime, '%Y-%m-%d') || DEFAULT_DATA_TO_SYNC
     end
 
     private
 
     def update_package_status(external_source_id, external_destiny_id, status = :sent)
+      binding.pry
       BinoPackage.find_by(external_source_id: external_source_id)
                  .update(external_destiny_id: external_destiny_id, status: status)
     end
