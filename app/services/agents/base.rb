@@ -37,7 +37,6 @@ module Agents
     private
 
     def update_package_status(external_source_id, external_destiny_id, status = :sent)
-      binding.pry
       BinoPackage.find_by(external_source_id: external_source_id)
                  .update(external_destiny_id: external_destiny_id, status: status)
     end

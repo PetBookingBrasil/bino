@@ -21,7 +21,7 @@ class BinoService
 
     puts "Starting transportation from #{@source} (#{@source_type}) to #{@destiny} (#{@destiny_type})."
     objects_to_send = get_objects_from_source
-    return puts 'No data to transport' unless objects_to_send.present?
+    raise 'No data to transport' unless objects_to_send.present?
     create_packages_for_objects(objects_to_send)
     post_objects_for_destiny(objects_to_send)
   end
