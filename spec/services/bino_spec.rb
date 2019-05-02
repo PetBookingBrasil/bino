@@ -60,7 +60,7 @@ RSpec.describe BinoService do
           start_count = BinoPackage.count
           BinoService.any_instance.stub(:get_objects_from_source).and_return([{id: 10}, {id: 11}, {id: 12}])
           subject.transport
-          expect(BinoPackages.count).to eq(start_count + 3)
+          expect(BinoPackage.count).to eq(start_count + 3)
         end
 
         it 'posts the object to the destiny' do
