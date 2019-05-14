@@ -13,6 +13,7 @@ class BinoService
     @source_type = source_type
     @destiny_type = destiny_type
     @object_id = object_id
+    @objects_to_send = []
   end
 
   def transport
@@ -20,10 +21,10 @@ class BinoService
     raise 'Invalid Agent for destiny or source' unless valid_agents?
 
     puts "Starting transportation from #{@source} (#{@source_type}) to #{@destiny} (#{@destiny_type})."
-    objects_to_send = get_objects_from_source
-    raise 'No data to transport' unless objects_to_send.present?
-    create_packages_for_objects(objects_to_send)
-    post_objects_for_destiny(objects_to_send)
+    @objects_to_send = get_objects_from_source
+    raise 'No data to transport' unless @objects_to_send.present?
+    create_packages_for_objects
+    post_objects_for_destiny
   end
 
   private
@@ -37,16 +38,16 @@ class BinoService
       destiny_type: @destiny_type).get
   end
 
-  def post_objects_for_destiny(objects_to_send)
-    puts "Posting #{objects_to_send.size} objects to #{@destiny}"
+  def post_objects_for_destiny
+    puts "Posting #{@objects_to_send.size} objects to #{@destiny}"
     "Agents::#{@destiny.capitalize}Service".constantize.new(
-      formatted_objects: objects_to_send,
+      formatted_objects: @objects_to_send,
       destiny_type: @destiny_type).post
   end
 
-  def create_packages_for_objects(objects_to_send)
+  def create_packages_for_objects
     puts "Creating my packages..."
-    objects_to_send.each do |t|
+    @objects_to_send.each do |t|
       package_params = {
         source: @source,
         destiny: @destiny,

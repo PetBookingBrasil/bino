@@ -29,6 +29,7 @@ module Agents
 
     def last_date_for_source_and_package_type(source, package_type)
       BinoPackage.sent.send(package_type).where(source: source.camelize)
+                 .order('created_at DESC')
                  .first
                  .try(:updated_at)
                  .try(:strftime, '%Y-%m-%d') || DEFAULT_DATA_TO_SYNC
